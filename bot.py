@@ -3,6 +3,7 @@ import discord
 import asyncio
 import logging
 import json
+import datetime
 
 # Logger Configuration
 discord_logger = logging.getLogger('discord')
@@ -22,6 +23,25 @@ Discord bot that checks out your game stats, rankings, and much more.
 
 bot = commands.Bot(command_prefix=['?'], description=desc, pm_help=None, help_attrs=dict(hidden=True))
 
+# Bot events
+
+@bot.event
+async def on_command_error(error, ctx):
+    if isinstance(error, commands.NoPrivateMessage):
+        await bot.send_message(ctx.message.author, 'This command cannot be used in private messages.')
+    elif isinstance(error, commands.DisabledCommand):
+        await bot.send_message(ctx.message.author, 'Sorry. This command is disabled and cannot be used.')
+    elif isinstance(error, commands.CommandInvokeError):
+        await bot.send_message(ctx.message.author, 'Sorry. This command is disabled and cannot be used.')
+
+@bot.event
+async def on_ready():
+    print('Logged in as:')
+    print('Username: ' + bot.user.name)
+    print('ID: ' + bot.user.id)
+    print('------')
+    if not hasattr(bot, 'uptime'):
+        bot.uptime = datetime.datetime.utcnow()
 
 # Loads the configuration files
 def loadFiles():
@@ -41,6 +61,6 @@ if __name__ == '__main__':
 	# unload all the handlers
 	handlers = log.handlers[:]
 	for hldr in handlers:
-		hdlr.close()
-		log.removeHandler(hdlr)
+                hdlr.close()
+                log.removeHandler(hdlr)
 
