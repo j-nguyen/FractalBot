@@ -15,7 +15,9 @@ log.addHandler(handler)
 
 # Load the bot
 
-initExt = []
+initExt = [
+    'ext.mod'
+]
 
 desc = """
 Discord bot that checks out your game stats, rankings, and much more.
@@ -45,22 +47,29 @@ async def on_ready():
 
 # Loads the configuration files
 def loadFiles():
-	with open('config.json') as f:
-		return json.load(f)
+    with open('config.json') as f:
+        return json.load(f)
 
 if __name__ == '__main__':
-	# load in the credentials
-	config = loadFiles()
+    # load in the credentials
+    config = loadFiles()
 
-	# attempt to get the bot stuff
-	bot.client_id = config['client_id']
+    # attempt to get the bot stuff
+    bot.client_id = config['client_id']
 
-	# Run the bot
-	bot.run(config['token'])
+    # Attempt to load the extensions
+    for ext in initExt:
+            try:
+                bot.load_extension(ext)
+            except Exception as e:
+                print('Failed to load extension {}\n{}: {}'.format(ext, type(e).__name__, e))
 
-	# unload all the handlers
-	handlers = log.handlers[:]
-	for hldr in handlers:
+    # Run the bot
+    bot.run(config['token'])
+
+    # unload all the handlers
+    handlers = log.handlers[:]
+    for hldr in handlers:
                 hdlr.close()
                 log.removeHandler(hdlr)
 
