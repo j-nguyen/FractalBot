@@ -7,4 +7,11 @@ import discord.utils
 # This is the only one we really need.
 # TODO: Fix this
 def check_permissions():
-    pass
+    # Get the user
+    usr = ctx.message.author
+
+    # Attempt to find the permissions from the author
+    roles = usr.roles
+
+    # Check to see if a specified role is in
+    return any(role.name == 'Staff' for role in roles)
