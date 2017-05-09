@@ -5,8 +5,8 @@ import discord.utils
 
 # Checks mod permissions
 # This is the only one we really need.
-# TODO: Fix this
-def check_permissions():
+# TODO: Fix this, as it's a bare type of a function
+def check_permissions(ctx):
     # Get the user
     usr = ctx.message.author
 
