@@ -5,3 +5,7 @@ python:
 
 install:
   - pip install discord.py
+
+script:
+  - python -m compileall ./bot.py
+  - python -m compileall ./cogs
