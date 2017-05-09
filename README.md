@@ -2,11 +2,14 @@
 
 A multi-purpose discord bot that is designed to several tasks. Some tasks include, but not limited to: overwatch/cs:go stats, moderation management, and fun commands.
 
+This bot's purpose is to help manage your server in Discord. Feel free to add in any requests you'd like.
+
 ## Requirements
 
 * Python 3.5
 * `aiohttp` library
 * `websockets` library
+* `discord` library
 
 ## Installing
 
@@ -27,3 +30,7 @@ Finally, execute by doing:
 ## Author
 
 * Johnny Nguyen (j-nguyen)
+
+## License
+
+[Apache License](https://github.com/j-nguyen/FractalBot/blob/master/LICENSE)
