@@ -1,6 +1,6 @@
 # FractalBot
 
-[![Build Status](https://travis-ci.org/j-nguyen/FractalBot)]()
+[![Build Status](https://travis-ci.org/j-nguyen/FractalBot.svg?branch=staging)](https://travis-ci.org/j-nguyen/FractalBot) [![Discord](https://discordapp.com/api/guilds/267645106377457665/widget.png)](https://discord.gg/uzNg2uH)
 
 A multi-purpose discord bot that is designed to several tasks. Some tasks include, but not limited to: overwatch/cs:go stats, moderation management, and fun commands.
 
