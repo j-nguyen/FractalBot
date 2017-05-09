@@ -16,14 +16,14 @@ log.addHandler(handler)
 # Load the bot
 
 initExt = [
-    'ext.mod'
+    'cogs.mod'
 ]
 
 desc = """
 Discord bot that checks out your game stats, rankings, and much more.
 """
 
-bot = commands.Bot(command_prefix=['?'], description=desc, pm_help=None, help_attrs=dict(hidden=True))
+bot = commands.Bot(command_prefix=['$'], description=desc, pm_help=None, help_attrs=dict(hidden=True))
 
 # Bot events
 
