@@ -45,6 +45,10 @@ async def on_ready():
     if not hasattr(bot, 'uptime'):
         bot.uptime = datetime.datetime.utcnow()
 
+@bot.event
+async def on_message(message):
+    await bot.process_commands(message)
+
 # Loads the configuration files
 def loadFiles():
     with open('config.json') as f:

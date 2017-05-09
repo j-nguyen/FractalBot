@@ -1,3 +1,5 @@
+.DS_Store
 discord.log
 __pycache__/
 *.py[cod]
+ext/__pycache__/
