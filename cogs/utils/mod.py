@@ -1,7 +1,6 @@
 from discord.ext import commands
 import discord
 import logging
-import perms
 
 # Enables us to get a specific log for each extension
 log = logging.getLogger(__name__)
@@ -18,8 +17,8 @@ class Mod:
     # Returns:
     # - Sends a discord message, returns or not.
     @commands.command(no_pm=True)
+    @perms.mod_or_permissions(kick_members=True)
     async def kick(self, *, member : discord.Member):
-        if 
         try:
             await self.bot.kick(member)
         except discord.Forbidden:
