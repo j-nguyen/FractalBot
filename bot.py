@@ -51,16 +51,29 @@ async def on_message_edit(before, after):
     usr = before.author
 
     # send message as embed
-    e = discord.Embed(title='Message Edited', colour=0xdda453)
+    e = discord.Embed(colour=discord.Colour.dark_gold())
+    e.set_thumbnail(url=usr.avatar_url)
     e.timestamp = usr.created_at
     e.set_footer(text='Edited')
-    e.set_author(name=str(usr), icon_url=usr.avatar_url or usr.default_avatar.url)
-    e.add_field(name='ID', value=usr.id)
+    e.set_author(name=str(usr))
     e.add_field(name='Before', value=before.content)
     e.add_field(name='After', value=after.content)
-    channel = await bot.get_channel('309779730440126475')
+    channel = bot.get_channel(config['mod_log'])
 
     # send message
+    await bot.send_message(channel, embed=e)
+
+@bot.event
+async def on_member_join(member):
+    # Create an embed and attempt to join
+    e = discord.Embed(title='Member Joined', colour=discord.Colour.green())
+    e.set_thumbnail(url=member.avatar_url or member.default_avatar_url)
+    e.timestamp = member.joined_at
+    e.set_author(name=str(member))
+    e.set_footer(text='Member Joined')
+
+    channel = bot.get_channel(config['mod_log'])
+
     await bot.send_message(channel, embed=e)
 
 @bot.event
