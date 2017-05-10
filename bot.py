@@ -46,6 +46,24 @@ async def on_ready():
         bot.uptime = datetime.datetime.utcnow()
 
 @bot.event
+async def on_message_edit(before, after):
+    # get the user 
+    usr = before.author
+
+    # send message as embed
+    e = discord.Embed(title='Message Edited', colour=0xdda453)
+    e.timestamp = usr.created_at
+    e.set_footer(text='Edited')
+    e.set_author(name=str(usr), icon_url=usr.avatar_url or usr.default_avatar.url)
+    e.add_field(name='ID', value=usr.id)
+    e.add_field(name='Before', value=before.content)
+    e.add_field(name='After', value=after.content)
+    channel = await bot.get_channel('309779730440126475')
+
+    # send message
+    await bot.send_message(channel, embed=e)
+
+@bot.event
 async def on_message(message):
     await bot.process_commands(message)
 
