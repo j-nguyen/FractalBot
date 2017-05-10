@@ -1,0 +1,7 @@
+.DS_Store
+discord.log
+__pycache__/*
+*.py[cod]
+cogs/__pycache__/*
+/cogs/__pycache__/*
+/cogs/utils/__pycache__/*
