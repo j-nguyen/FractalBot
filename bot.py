@@ -16,7 +16,8 @@ log.addHandler(handler)
 # Load the bot
 
 initExt = [
-    'cogs.mod'
+    'cogs.mod',
+    'cogs.game'
 ]
 
 desc = """
@@ -31,10 +32,6 @@ bot = commands.Bot(command_prefix=['$'], description=desc, pm_help=None, help_at
 async def on_command_error(error, ctx):
     if isinstance(error, commands.NoPrivateMessage):
         await bot.send_message(ctx.message.author, 'This command cannot be used in private messages.')
-    elif isinstance(error, commands.DisabledCommand):
-        await bot.send_message(ctx.message.author, 'Sorry. This command is disabled and cannot be used.')
-    elif isinstance(error, commands.CommandInvokeError):
-        await bot.send_message(ctx.message.author, 'Sorry. This command is disabled and cannot be used.')
 
 @bot.event
 async def on_ready():

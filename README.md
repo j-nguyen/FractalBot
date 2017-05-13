@@ -21,6 +21,14 @@ You will need to the install the discord library
 
 Afterwards, you'll need to configure `config.json` for to direct to your token and client id. (You may use mine I guess, but I prefer you not to. Discord has it for free)
 
+```json
+{
+	"token": "",
+	"client_id": "",
+	"mod_log": ""
+}
+```
+
 Finally, execute by doing:
 
 `$ python bot.py`
