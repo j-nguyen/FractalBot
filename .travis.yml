@@ -5,6 +5,7 @@ python:
 
 install:
   - pip install discord.py
+  - pip install sqlalchemy
 
 script:
   - python -m compileall ./bot.py
