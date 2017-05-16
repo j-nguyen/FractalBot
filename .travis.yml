@@ -10,3 +10,4 @@ install:
 script:
   - python -m compileall ./bot.py
   - python -m compileall ./cogs
+  - python -m compileall ./models
