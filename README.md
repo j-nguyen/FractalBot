@@ -19,13 +19,31 @@ You will need to the install the discord library
 
 `$ python3 -m pip install -U discord.py`
 
-Afterwards, you'll need to configure `config.json` for to direct to your token and client id. (You may use mine I guess, but I prefer you not to. Discord has it for free)
+### Config.json
+
+Afterwards, you'll need to create a `config.json` for to direct to your token and client id. (You may use mine I guess, but I prefer you not to. Discord has it for free)
 
 ```json
 {
 	"token": "",
 	"client_id": "",
 	"mod_log": ""
+}
+```
+
+
+### Database Configuration
+
+You'll need to edit for the database configuration. Create `postgresql.json` on the current directory.
+
+Here is an example:
+
+```json
+{
+  "hostname": "localhost",
+  "user": "",
+  "password": "",
+  "database": ""
 }
 ```
 

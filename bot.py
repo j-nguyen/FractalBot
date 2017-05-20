@@ -19,7 +19,7 @@ log.addHandler(handler)
 
 initExt = [
     'cogs.mod',
-    # 'cogs.game'
+    'cogs.tags'
 ]
 
 desc = """
