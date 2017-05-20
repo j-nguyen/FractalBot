@@ -1,5 +1,5 @@
 from discord.ext import commands
-from sqlalchemy import create_engine
+import cogs.utils.db as db
 import discord
 import asyncio
 import logging
@@ -118,18 +118,20 @@ def loadFiles():
 
 def loadDatabase():
     with open('postgresql.json') as f:
-        return json.load(f)
+        dbFile = json.load(f)
+
+    # Connect db
+    db.loadDB(dbFile['user'], dbFile['password'], dbFile['hostname'], dbFile['database'])
 
 if __name__ == '__main__':
     # load in the credentials
     config = loadFiles()
-    db = loadDatabase()
-
-    # PostgreSQL Set-up
-    engine = create_engine('postgresql+psycopg2://{}:{}@{}/{}'.format(db['user'], db['password'], db['hostname'], db['database']))
 
     # attempt to get the bot stuff
     bot.client_id = config['client_id']
+
+    # Load db
+    loadDatabase()
 
     # Attempt to load the extensions
     for ext in initExt:
