@@ -5,6 +5,7 @@ import asyncio
 import logging
 import json
 import datetime
+import psycopg2
 
 # Logger Configuration
 discord_logger = logging.getLogger('discord')
@@ -14,7 +15,7 @@ log.setLevel(logging.INFO)
 handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
 log.addHandler(handler)
 
-# Load the bot
+# Bot-setup
 
 initExt = [
     'cogs.mod',
@@ -115,9 +116,17 @@ def loadFiles():
     with open('config.json') as f:
         return json.load(f)
 
+def loadDatabase():
+    with open('postgresql.json') as f:
+        return json.load(f)
+
 if __name__ == '__main__':
     # load in the credentials
     config = loadFiles()
+    db = loadDatabase()
+
+    # PostgreSQL Set-up
+    engine = create_engine('postgresql+psycopg2://{}:{}@{}/{}'.format(db['user'], db['password'], db['hostname'], db['database']))
 
     # attempt to get the bot stuff
     bot.client_id = config['client_id']
