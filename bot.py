@@ -1,4 +1,5 @@
 from discord.ext import commands
+from sqlalchemy import create_engine
 import discord
 import asyncio
 import logging
@@ -17,7 +18,7 @@ log.addHandler(handler)
 
 initExt = [
     'cogs.mod',
-    'cogs.game'
+    # 'cogs.game'
 ]
 
 desc = """
@@ -134,6 +135,6 @@ if __name__ == '__main__':
     # unload all the handlers
     handlers = log.handlers[:]
     for hldr in handlers:
-                hdlr.close()
-                log.removeHandler(hdlr)
+        hldr.close()
+        log.removeHandler(hldr)
 

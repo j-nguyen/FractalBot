@@ -6,3 +6,5 @@ cogs/__pycache__/*
 /cogs/__pycache__/*
 /cogs/utils/__pycache__/*
 config.json
+postgresql.json
+.idea/*
