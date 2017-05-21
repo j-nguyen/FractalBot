@@ -5,7 +5,10 @@ python:
 
 install:
   - pip install discord.py
+  - pip install sqlalchemy
+  - pip install psycopg2
 
 script:
   - python -m compileall ./bot.py
   - python -m compileall ./cogs
+  - python -m compileall ./model
