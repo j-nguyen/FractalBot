@@ -1,9 +1,11 @@
 from discord.ext import commands
+import cogs.utils.db as db
 import discord
 import asyncio
 import logging
 import json
 import datetime
+import psycopg2
 
 # Logger Configuration
 discord_logger = logging.getLogger('discord')
@@ -13,10 +15,11 @@ log.setLevel(logging.INFO)
 handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
 log.addHandler(handler)
 
-# Load the bot
+# Bot-setup
 
 initExt = [
-    'cogs.mod'
+    'cogs.mod',
+    'cogs.tags'
 ]
 
 desc = """
@@ -31,10 +34,6 @@ bot = commands.Bot(command_prefix=['$'], description=desc, pm_help=None, help_at
 async def on_command_error(error, ctx):
     if isinstance(error, commands.NoPrivateMessage):
         await bot.send_message(ctx.message.author, 'This command cannot be used in private messages.')
-    elif isinstance(error, commands.DisabledCommand):
-        await bot.send_message(ctx.message.author, 'Sorry. This command is disabled and cannot be used.')
-    elif isinstance(error, commands.CommandInvokeError):
-        await bot.send_message(ctx.message.author, 'Sorry. This command is disabled and cannot be used.')
 
 @bot.event
 async def on_ready():
@@ -117,12 +116,22 @@ def loadFiles():
     with open('config.json') as f:
         return json.load(f)
 
+def loadDatabase():
+    with open('postgresql.json') as f:
+        dbFile = json.load(f)
+
+    # Connect db
+    db.loadDB(dbFile['user'], dbFile['password'], dbFile['hostname'], dbFile['database'])
+
 if __name__ == '__main__':
     # load in the credentials
     config = loadFiles()
 
     # attempt to get the bot stuff
     bot.client_id = config['client_id']
+
+    # Load db
+    loadDatabase()
 
     # Attempt to load the extensions
     for ext in initExt:
@@ -137,6 +146,6 @@ if __name__ == '__main__':
     # unload all the handlers
     handlers = log.handlers[:]
     for hldr in handlers:
-                hdlr.close()
-                log.removeHandler(hdlr)
+        hldr.close()
+        log.removeHandler(hldr)
 
