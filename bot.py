@@ -8,12 +8,11 @@ import datetime
 import psycopg2
 
 # Logger Configuration
-discord_logger = logging.getLogger('discord')
-discord_logger.setLevel(logging.CRITICAL)
-log = logging.getLogger()
-log.setLevel(logging.INFO)
+logger = logging.getLogger('discord')
+logger.setLevel(logging.DEBUG)
 handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
-log.addHandler(handler)
+handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+logger.addHandler(handler)
 
 # Bot-setup
 
@@ -147,10 +146,4 @@ if __name__ == '__main__':
 
     # Run the bot
     bot.run(config['token'])
-
-    # unload all the handlers
-    handlers = log.handlers[:]
-    for hldr in handlers:
-        hldr.close()
-        log.removeHandler(hldr)
 

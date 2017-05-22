@@ -1,11 +1,7 @@
 from discord.ext import commands
 from .utils import perms
 import discord
-import logging
 import datetime
-
-# Enables us to get a specific log for each extension
-log = logging.getLogger(__name__)
 
 class Mod:
     """ Moderation related commands """

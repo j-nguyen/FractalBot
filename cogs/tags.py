@@ -4,11 +4,6 @@ from .utils import models
 from .utils import perms
 from sqlalchemy.orm import sessionmaker
 import discord
-import logging
-
-
-# Enables us to get a specific log for each extension
-log = logging.getLogger(__name__)
 
 class Tags:
     def __init__(self, bot):
