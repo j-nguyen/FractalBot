@@ -46,6 +46,10 @@ async def on_ready():
 
 @bot.event
 async def on_message_edit(before, after):
+    # Make sure the contents are the same
+    if before.content == after.content:
+        return
+
     # get the user 
     usr = before.author
 
@@ -53,7 +57,7 @@ async def on_message_edit(before, after):
     e = discord.Embed(colour=discord.Colour.dark_gold())
     e.set_thumbnail(url=usr.avatar_url or usr.default_avatar_url)
     e.timestamp = usr.created_at
-    e.set_footer(text='Edited')
+    e.set_footer(text='ID: {}'.format(usr.id))
     e.set_author(name=str(usr))
     e.add_field(name='Before', value=before.content)
     e.add_field(name='After', value=after.content)
@@ -73,7 +77,7 @@ async def on_message_delete(message):
     e = discord.Embed(colour=discord.Colour.dark_gold())
     e.set_thumbnail(url=usr.avatar_url or usr.default_avatar_url)
     e.timestamp = datetime.datetime.utcnow()
-    e.set_footer(text='Deleted')
+    e.set_footer(text='ID: {}'.format(usr.id))
     e.set_author(name=str(usr))
     e.add_field(name='Deleted Message', value=message.content)
     channel = bot.get_channel(config['mod_log'])
@@ -97,7 +101,7 @@ async def on_member_join(member):
 @bot.event
 async def on_member_remove(member):
     # Create an embed and attempt to join
-    e = discord.Embed(title='Member Left', colour=discord.Colour.green())
+    e = discord.Embed(title='Member Left', colour=discord.Colour.red())
     e.set_thumbnail(url=member.avatar_url or member.default_avatar_url)
     e.timestamp = datetime.datetime.utcnow()
     e.set_author(name=str(member))
@@ -106,6 +110,7 @@ async def on_member_remove(member):
     channel = bot.get_channel(config['mod_log'])
 
     await bot.send_message(channel, embed=e)
+
 
 @bot.event
 async def on_message(message):

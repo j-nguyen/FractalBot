@@ -2,6 +2,7 @@ from discord.ext import commands
 from .utils import perms
 import discord
 import logging
+import datetime
 
 # Enables us to get a specific log for each extension
 log = logging.getLogger(__name__)
@@ -12,22 +13,19 @@ class Mod:
     def __init__(self, bot):
         self.bot = bot
 
-    # Command to kick the user.
-    # Paramaters:
-    # - discord.Member class Object.
-    # Returns:
-    # - Sends a discord message, returns or not.
-    @commands.command(no_pm=True)
+    @commands.command()
     @perms.mod_or_permissions(kick_members=True)
-    async def kick(self, *, member : discord.Member):
-        try:
-            await self.bot.kick(member)
-        except discord.Forbidden:
-            await self.bot.say('The bot does not have permissions to kick this member.')
-        except discord.HTTPException:
-            await self.bot.say('Attempt to kick failed.')
-        else:
-            await self.bot.say('{0.name} kicked'.format(member))
+    async def whois(self, user: discord.Member):
+        e = discord.Embed(title='Member Information', colour=discord.Colour.red())
+        e.set_thumbnail(url=user.avatar_url or user.default_avatar_url)
+        e.timestamp = datetime.datetime.utcnow()
+        e.set_author(name=str(user))
+        e.add_field(name='Member Joined:', value=user.joined_at)
+        e.add_field(name='Roles', value=', '.join([str(role) for role in user.roles if str(role) != '@everyone']))
+        e.add_field(name='Nickname:', value=user.nick)
+        e.set_footer(text='ID: {}'.format(user.id))
+
+        await self.bot.say(embed=e)
 
     
 # Helps us add to the extension
