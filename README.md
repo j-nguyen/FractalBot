@@ -20,7 +20,9 @@ This bot's purpose is to help manage your server in Discord. Feel free to add in
 You will need to the install the discord library, and the libraries listed above.
 
 `$ python3 -m pip install -U discord.py`
+
 `$ python3 -m pip install sqlalchemy`
+
 `$ python3 -m pip install psycopg2`
 
 ### Config.json
