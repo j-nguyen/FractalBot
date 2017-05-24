@@ -2,6 +2,7 @@ from discord.ext import commands
 from .utils import perms
 import discord
 import datetime
+import asyncio
 
 class Mod:
     """ Moderation related commands """
@@ -22,6 +23,18 @@ class Mod:
         e.set_footer(text='ID: {}'.format(user.id))
 
         await self.bot.say(embed=e)
+
+
+    @commands.command(pass_context=True)
+    # @perms.mod_or_permissions(kick_members=True)
+    async def prune(self, ctx, msg: int):
+        if msg <= 0:
+            await self.bot.say('Cannot delete less than 0 messages, dumbass.')
+        else:
+            channel = ctx.message.channel
+
+            deleted = await self.bot.purge_from(channel, limit=msg)
+            await self.bot.say('Deleted {} messages.'.format(len(deleted)))
 
     
 # Helps us add to the extension
