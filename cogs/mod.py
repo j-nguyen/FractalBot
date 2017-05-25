@@ -2,7 +2,6 @@ from discord.ext import commands
 from .utils import perms
 import discord
 import datetime
-import asyncio
 
 class Mod:
     """ Moderation related commands """
@@ -26,7 +25,7 @@ class Mod:
 
 
     @commands.command(pass_context=True)
-    # @perms.mod_or_permissions(kick_members=True)
+    @perms.mod_or_permissions(kick_members=True)
     async def prune(self, ctx, msg: int):
         if msg <= 0:
             await self.bot.say('Cannot delete less than 0 messages, dumbass.')
