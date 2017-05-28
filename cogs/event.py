@@ -1,4 +1,7 @@
 from discord.ext import commands
+from sqlalchemy.orm import sessionmaker
+from .utils import models
+from .utils import db
 import discord
 import datetime
 import json
@@ -9,6 +12,10 @@ class Event:
     def __init__(self, bot):
         self.bot = bot
         self.config = self.loadConfig()
+        # Set-up the engine here.
+        self.engine = db.engine
+        # Create a session
+        self.Session = sessionmaker(bind=self.engine)
 
     def loadConfig(self):
         with open('config.json') as f:
@@ -75,6 +82,20 @@ class Event:
 
         await self.bot.send_message(channel, embed=e)
 
+        # Attempt to insert into db for user
+        db = self.Session()
+
+        user = models.User(name=str(member))
+
+        try:
+            db.add(user)
+            db.commit()
+            print ("Member inserted")
+        except Exception as e:
+            pass
+        finally:
+            db.close()
+
     async def on_member_remove(self, member):
         # Create an embed and attempt to join
         e = discord.Embed(title='Member Left', colour=discord.Colour.red())
@@ -84,8 +105,21 @@ class Event:
         e.set_footer(text='ID: {}'.format(member.id))
 
         channel = self.bot.get_channel(self.config['mod_log'])
-
         await self.bot.send_message(channel, embed=e)
+
+        db = self.Session()
+
+        try:
+            user = db.query(models.User).filter(models.User.name == str(member)).first()
+            if user is not None:
+                db.remove(user)
+                db.commit()
+                print ("Member removed")
+        except Exception as e:
+            pass
+        finally:
+            db.close()
+
 
     async def on_message(self, message):
         await self.bot.process_commands(message)

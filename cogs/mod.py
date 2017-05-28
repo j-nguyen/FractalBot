@@ -35,7 +35,6 @@ class Mod:
             deleted = await self.bot.purge_from(channel, limit=msg)
             await self.bot.say('Deleted {} messages.'.format(len(deleted)))
 
-    
 # Helps us add to the extension
 def setup(bot):
     bot.add_cog(Mod(bot))
