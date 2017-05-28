@@ -18,7 +18,7 @@ class User(Base):
     # Create table fields
     id = Column(Integer, Sequence('user_id_seq'), primary_key=True)
     level = relationship("levels", uselist=False, back_populates="users")
-    name = Column(String(250), nullable=False)
+    name = Column(String(250), nullable=False, unique=True)
     location = Column(String(10))
     platform = Column(String(25))
 

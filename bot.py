@@ -40,8 +40,7 @@ async def on_ready():
     print('Username: ' + bot.user.name)
     print('ID: ' + bot.user.id)
     print('------')
-    if not hasattr(bot, 'uptime'):
-        bot.uptime = datetime.datetime.utcnow()
+    # attempt to le insert
 
 @bot.event
 async def on_message_edit(before, after):
