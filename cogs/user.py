@@ -17,8 +17,21 @@ class User:
         self.Session = sessionmaker(bind=self.engine)
 
     # Lets the user join a specific role which opens up a channel for them.
-    async def join(self, role: str):
-        pass
+    @commands.command(pass_context=True)
+    async def join(self, ctx, role: discord.Role = None):
+        member = ctx.message.author
+
+        if role != None:
+            try:
+                await self.bot.add_roles(member, role)
+                await self.bot.say("Joined {}.".format(str(role)))
+            except discord.Forbidden:
+                await self.bot.say('Cannot add')
+            except discord.HTTPException:
+                await self.bot.say('Adding roles failed!')
+        else:
+            await self.bot.say('That is not a role.')
+
 
 # Helps us add to the extension
 def setup(bot):

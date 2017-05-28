@@ -19,7 +19,8 @@ logger.addHandler(handler)
 initExt = [
     'cogs.event',
     'cogs.mod',
-    'cogs.tags'
+    'cogs.tags',
+    'cogs.user'
 ]
 
 desc = """

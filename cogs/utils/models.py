@@ -45,5 +45,5 @@ class Level(Base):
 class Topic(Base):
     __tablename__ = "topics"
     id = Column(Integer, Sequence('topics_id_seq'), primary_key=True)
-    name = Column(String(250), nullable=False)
-    rank_id = Column(Integer, nullable=False)
+    name = Column(String(250), nullable=False, unique=True)
+    role_id = Column(Integer, nullable=False)
