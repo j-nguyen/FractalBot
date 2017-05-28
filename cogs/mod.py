@@ -30,6 +30,11 @@ class Mod:
 
         await self.bot.say(embed=e)
 
+    @commands.command()
+    @perms.mod_or_permissions(kick_members=True)
+    async def role(self, role: discord.Role):
+        await self.bot.say(role.id)
+
 
     @commands.command(pass_context=True)
     @perms.mod_or_permissions(kick_members=True)
