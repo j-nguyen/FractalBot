@@ -17,8 +17,10 @@ logger.addHandler(handler)
 # Bot-setup
 
 initExt = [
+    'cogs.event',
     'cogs.mod',
-    'cogs.tags'
+    'cogs.tags',
+    'cogs.user'
 ]
 
 desc = """
@@ -26,93 +28,6 @@ Discord bot that checks out your game stats, rankings, and much more.
 """
 
 bot = commands.Bot(command_prefix=['$'], description=desc, pm_help=None, help_attrs=dict(hidden=True))
-
-# Bot events
-
-@bot.event
-async def on_command_error(error, ctx):
-    if isinstance(error, commands.NoPrivateMessage):
-        await bot.send_message(ctx.message.author, 'This command cannot be used in private messages.')
-
-@bot.event
-async def on_ready():
-    print('Logged in as:')
-    print('Username: ' + bot.user.name)
-    print('ID: ' + bot.user.id)
-    print('------')
-    # attempt to le insert
-
-@bot.event
-async def on_message_edit(before, after):
-    # Make sure the contents are the same
-    if before.content == after.content:
-        return
-
-    # get the user 
-    usr = before.author
-
-    # send message as embed
-    e = discord.Embed(colour=discord.Colour.dark_gold())
-    e.set_thumbnail(url=usr.avatar_url or usr.default_avatar_url)
-    e.timestamp = usr.created_at
-    e.set_footer(text='ID: {}'.format(usr.id))
-    e.set_author(name=str(usr))
-    e.add_field(name='Before', value=before.content)
-    e.add_field(name='After', value=after.content)
-    channel = bot.get_channel(config['mod_log'])
-
-    # send message
-    try:
-        await bot.send_message(channel, embed=e)
-    except Exception as e:
-        print ('Error: ' + str(e))
-
-@bot.event
-async def on_message_delete(message):
-    usr = message.author
-
-    # send message as embed
-    e = discord.Embed(colour=discord.Colour.dark_gold())
-    e.set_thumbnail(url=usr.avatar_url or usr.default_avatar_url)
-    e.timestamp = datetime.datetime.utcnow()
-    e.set_footer(text='ID: {}'.format(usr.id))
-    e.set_author(name=str(usr))
-    e.add_field(name='Deleted Message', value=message.content)
-    channel = bot.get_channel(config['mod_log'])
-
-    # send message
-    await bot.send_message(channel, embed=e)
-
-@bot.event
-async def on_member_join(member):
-    # Create an embed and attempt to join
-    e = discord.Embed(title='Member Joined', colour=discord.Colour.green())
-    e.set_thumbnail(url=member.avatar_url or member.default_avatar_url)
-    e.timestamp = member.joined_at
-    e.set_author(name=str(member))
-    e.set_footer(text='Member Joined')
-
-    channel = bot.get_channel(config['mod_log'])
-
-    await bot.send_message(channel, embed=e)
-
-@bot.event
-async def on_member_remove(member):
-    # Create an embed and attempt to join
-    e = discord.Embed(title='Member Left', colour=discord.Colour.red())
-    e.set_thumbnail(url=member.avatar_url or member.default_avatar_url)
-    e.timestamp = datetime.datetime.utcnow()
-    e.set_author(name=str(member))
-    e.set_footer(text='Member Left')
-
-    channel = bot.get_channel(config['mod_log'])
-
-    await bot.send_message(channel, embed=e)
-
-
-@bot.event
-async def on_message(message):
-    await bot.process_commands(message)
 
 # Loads the configuration files
 def loadFiles():
