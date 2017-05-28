@@ -30,21 +30,6 @@ class Mod:
 
         await self.bot.say(embed=e)
 
-    @commands.command()
-    @perms.mod_or_permissions(kick_members=True)
-    async def addtopic(self, name: str, role: discord.Role = None):
-        if role is None:
-            await self.bot.say('Invalid role.')
-        else:
-            try:
-                db = self.Session()
-                topic = models.Topic(name=name, role=role.id)
-                db.add(topic)
-                db.commit()
-                await self.bot.say('Added topic.')
-            except Exception as e:
-                print (e)
-
     @commands.command(pass_context=True)
     @perms.mod_or_permissions(kick_members=True)
     async def prune(self, ctx, msg: int):

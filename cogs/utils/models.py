@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Sequence, Integer, ForeignKey
+from sqlalchemy import Column, String, Sequence, Integer, ForeignKey, BIGINT
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
@@ -46,4 +46,4 @@ class Topic(Base):
     __tablename__ = "topics"
     id = Column(Integer, Sequence('topics_id_seq'), primary_key=True)
     name = Column(String(250), nullable=False, unique=True)
-    role_id = Column(Integer, nullable=False)
+    role_id = Column(BIGINT, nullable=False)
