@@ -132,7 +132,7 @@ class Event:
             pass
         finally:
             db.close()
-            
+
     async def on_message(self, message):
         await self.bot.process_commands(message)
 
