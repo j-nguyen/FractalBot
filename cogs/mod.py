@@ -43,13 +43,33 @@ class Mod:
             await self.bot.say('Deleted {} messages.'.format(len(deleted)))
 
     @commands.command(pass_context=True)
-    # @perms.mod_or_permissions(administrator=True)
+    @perms.mod_or_permissions(administrator=True)
     async def addmembers(self, ctx):
-        """ This command will ERASE, and CREATE all members currently in the server. Be careful using this """
 
         server = ctx.message.server
+        usrs = server.members
 
+        usersDB = []
 
+        # Attempt to add to the user.
+        for usr in usrs:
+            if not usr.bot:
+                usersDB.append(models.User(name=str(usr)))
+
+        # Insert
+        try:
+            db = self.Session()
+            for user in usersDB:
+                q = db.query(models.User).filter(models.User.name == user.name)
+                if not db.query(q.exists()).scalar():
+                    db.add(user)
+            db.commit()
+
+            await self.bot.say('Added all members.')
+        except Exception as e:
+            print (e)
+        finally:
+            db.close()
 
 # Helps us add to the extension
 def setup(bot):

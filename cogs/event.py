@@ -114,7 +114,6 @@ class Event:
             if user is not None:
                 db.remove(user)
                 db.commit()
-                print ("Member removed")
         except Exception as e:
             pass
         finally:
@@ -127,14 +126,10 @@ class Event:
             if user is not None:
                 db.remove(user)
                 db.commit()
-                print ("Member removed")
         except Exception as e:
             pass
         finally:
             db.close()
-
-    async def on_message(self, message):
-        await self.bot.process_commands(message)
 
 
 # Helps us add to the extension
