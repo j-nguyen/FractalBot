@@ -3,7 +3,6 @@ from .utils import db
 from .utils import models
 from .utils import perms
 from sqlalchemy.orm import sessionmaker
-import discord
 
 class Tags:
     def __init__(self, bot):
