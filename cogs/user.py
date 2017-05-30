@@ -37,7 +37,7 @@ class User:
                 role = discord.utils.find(lambda r: r.id == str(topic.role_id), roles)
                 try:
                     await self.bot.add_roles(member, role)
-                    await self.bot.say('Added role')
+                    await self.bot.say('Joined {}'.format(topic.name))
                 except discord.Forbidden:
                     await self.bot.say('Cannot add! Permissions wrong?')
                 except discord.HTTPException:
