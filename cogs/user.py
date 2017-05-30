@@ -24,6 +24,7 @@ class User:
     # Lets the user join a specific role which opens up a channel for them.
     @topic.command(pass_context=True)
     async def join(self, ctx, name: str = None):
+        """ Joins a specific topic, given the topic name """
         member = ctx.message.author
         roles = ctx.message.server.roles
 
@@ -47,6 +48,7 @@ class User:
 
     @topic.command()
     async def list(self):
+        """ List all the topics available. """
         db = self.Session()
         topics = db.query(models.Topic).all()
         db.close()
@@ -56,6 +58,7 @@ class User:
     @topic.command()
     @perms.mod_or_permissions(kick_members=True)
     async def add(self, name: str, role: discord.Role = None):
+        """ Adds a topic """
         if role is None:
             await self.bot.say('Invalid role.')
         else:
@@ -70,6 +73,7 @@ class User:
 
     @topic.command(pass_context=True)
     async def leave(self, ctx, name: str = None):
+        """ Leave a topic that you are from. """
         if name is None:
             await self.bot.say('Invalid topic.')
         else:
@@ -93,6 +97,7 @@ class User:
     @topic.command()
     @perms.mod_or_permissions(kick_members=True)
     async def remove(self, name: str = None):
+        """ Removes a topic from the database. """
         if name is None:
             await self.bot.say('Invalid topic')
         else:
