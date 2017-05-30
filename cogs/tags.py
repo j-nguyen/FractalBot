@@ -5,6 +5,7 @@ from .utils import perms
 from sqlalchemy.orm import sessionmaker
 
 class Tags:
+    """ Tag commands, to showcase. """
     def __init__(self, bot):
         self.bot = bot
         # Set-up the engine here.
@@ -22,6 +23,7 @@ class Tags:
     @tag.command()
     @perms.mod_or_permissions(kick_members=True)
     async def add(self, name: str, *, desc: str):
+        """ Adds a tag to the database. """
         # Create a tag object
         tag = models.Tag(name=name, description=desc)
 
@@ -39,8 +41,8 @@ class Tags:
     @tag.command()
     @perms.mod_or_permissions(kick_members=True)
     async def remove(self, name: str):
+        """ Removes the tag from the database """
         # Removes the tag
-
         sess = self.Session()
 
         tag = sess.query(models.Tag).filter(models.Tag.name == name).first()
@@ -54,6 +56,7 @@ class Tags:
 
     @tag.command()
     async def list(self):
+        """ List all tags available in the database. """
         # Shows the list of tags
         sess = self.Session()
 
@@ -67,6 +70,7 @@ class Tags:
 
     @tag.command()
     async def show(self, name: str):
+        """ output a tag, based on the name given """
         # display the tag
         sess = self.Session()
 
