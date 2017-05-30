@@ -5,6 +5,7 @@ from .utils import perms
 from sqlalchemy.orm import sessionmaker
 import discord
 import datetime
+import asyncio
 
 class Mod:
     """ Moderation related commands """
@@ -19,6 +20,7 @@ class Mod:
     @commands.command()
     @perms.mod_or_permissions(kick_members=True)
     async def whois(self, user: discord.Member):
+        """ Find information about the current member """
         e = discord.Embed(title='Member Information', colour=discord.Colour.red())
         e.set_thumbnail(url=user.avatar_url or user.default_avatar_url)
         e.timestamp = datetime.datetime.utcnow()
@@ -33,18 +35,23 @@ class Mod:
     @commands.command(pass_context=True)
     @perms.mod_or_permissions(kick_members=True)
     async def prune(self, ctx, msg: int):
+        """ Purges messages based on the number of messages given. """
         if msg <= 0:
             await self.bot.say('Cannot delete less than 0 messages, dumbass.')
         else:
             channel = ctx.message.channel
 
             deleted = await self.bot.purge_from(channel, limit=msg)
-            await self.bot.say('Deleted {} messages.'.format(len(deleted)))
+            botMsg = await self.bot.say('Deleted {} messages.'.format(len(deleted)))
+            # Wait 5 seconds
+            await asyncio.sleep(3)
+            await self.bot.delete_message(botMsg);
+
 
     @commands.command(pass_context=True)
     @perms.mod_or_permissions(administrator=True)
     async def addmembers(self, ctx):
-
+        """ Adds all unique members into the DB, if not configured. """
         server = ctx.message.server
         usrs = server.members
 
