@@ -114,6 +114,13 @@ class User:
             finally:
                 db.close()
 
+
+    async def on_message(self, message):
+        if message.author.bot:
+            return
+
+        print (str(message.author))
+
 # Helps us add to the extension
 def setup(bot):
     bot.add_cog(User(bot))

@@ -47,7 +47,7 @@ class Event:
         e.set_author(name=str(usr))
         e.add_field(name='Before', value=before.content)
         e.add_field(name='After', value=after.content)
-        channel = self.bot.get_channel(self.config['mod_log'])
+        channel = await self.bot.get_channel(self.config['mod_log'])
 
         # send message
         try:
@@ -65,7 +65,7 @@ class Event:
         e.set_footer(text='ID: {}'.format(usr.id))
         e.set_author(name=str(usr))
         e.add_field(name='Deleted Message', value=message.content)
-        channel = self.bot.get_channel(self.config['mod_log'])
+        channel = await self.bot.get_channel(self.config['mod_log'])
 
         # send message
         await self.bot.send_message(channel, embed=e)
