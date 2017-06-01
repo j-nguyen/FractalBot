@@ -23,6 +23,7 @@ class Rank(Base):
     __tablename__ = "ranks"
     id = Column(Integer, Sequence('rank_id_seq'), primary_key=True)
     levels = relationship("Level", uselist=False, back_populates="ranks")
+    roles = relationship("Role", uselist=False, back_populates="roles")
     xp = Column(Integer)
 
 class Role(Base):
@@ -30,6 +31,8 @@ class Role(Base):
     id = Column(Integer, Sequence('roles_id_seq'), primary_key=True)
     levels = relationship("Level", uselist=False, back_populates="roles")
     role_id = Column(Integer)
+    rank_id = Column(Integer, ForeignKey('ranks.id'))
+    ranks = relationship("Rank", back_populates="roles")
 
 class Level(Base):
     __tablename__ = "levels"

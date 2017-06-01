@@ -3,8 +3,9 @@ from .utils import db
 from .utils import models
 from .utils import perms
 from sqlalchemy.orm import sessionmaker
+from random import randint
 import discord
-import datetime
+import asyncio
 
 class User:
     """ User related commands """
@@ -15,6 +16,10 @@ class User:
         self.engine = db.engine
         # Create a session
         self.Session = sessionmaker(bind=self.engine)
+
+    def loadFiles(self):
+        with open('config.json') as f:
+            return json.load(f)
 
     @commands.group(pass_context=True)
     async def topic(self, ctx):
@@ -114,12 +119,19 @@ class User:
             finally:
                 db.close()
 
+    # async def on_message(self, message):
+    #     if message.author.bot:
+    #         return
+    #
+    #     # TODO: for now, we will just record it on the spot.
+    #     xp = randint(15, 25)
+    #
+    #     db = self.Session()
+    #
+    #     try:
+    #         user = db.query(models.User).filter(models.User.name == str(message.author)).first()
+    #         if user is not None:
 
-    async def on_message(self, message):
-        if message.author.bot:
-            return
-
-        print (str(message.author))
 
 # Helps us add to the extension
 def setup(bot):

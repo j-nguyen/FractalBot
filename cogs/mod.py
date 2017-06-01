@@ -77,6 +77,69 @@ class Mod:
         finally:
             db.close()
 
+    @commands.group(pass_context=True)
+    @perms.mod_or_permissions(administrator=True)
+    async def rankLevel(self, ctx):
+        """ Adds a rank like an achievement to a rank """
+        if ctx.invoked_subcommand is None:
+            await self.bot.say('Invalid command: $rankLevel <add/remove/list>')
+
+    @rankLevel.command()
+    async def list(self):
+        db = self.Session()
+
+        try:
+            ranks = db.query(models.Role).all()
+            # TODO: Show the rank names (roles)
+            rankList = [rank.id for rank in ranks]
+
+            await self.bot.say('Ranks: {}'.format(', '.join(rankList)))
+        except Exception as e:
+            print (e)
+        finally:
+            db.close()
+
+
+    @rankLevel.command()
+    async def add(self, role : discord.Role = None, level : int = 0):
+        if role is None:
+            await self.bot.say('You did not insert a role.')
+        else:
+            db = self.Session()
+
+            try:
+                rank = models.Role(role_id=role.id, rank_id=level)
+
+                db.add(rank)
+                db.commit()
+
+                await self.bot.say('Added new level role achievement.')
+            except Exception as e:
+                print (e)
+            finally:
+                db.close()
+
+    @rankLevel.command()
+    async def remove(self, role: discord.Role = None):
+        if role is None:
+            await self.bot.say('You did not enter a role id.')
+            return
+
+        db = self.Session()
+
+        try:
+            rank = db.query(models.Role).filter(models.Role.role_id == role.id).first()
+
+            if rank is not None:
+                db.delete(rank)
+                db.commit()
+
+                await self.bot.say('Deleted rank role')
+        except Exception as e:
+            print (e)
+
+
+
 # Helps us add to the extension
 def setup(bot):
     bot.add_cog(Mod(bot))
